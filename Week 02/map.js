@@ -38,8 +38,55 @@ document.addEventListener('mousedown', e => {
 document.addEventListener('mouseup', () => {
     mousedown = false;
 });
-document.addEventListener('contextmenu', e => e.preventDefault());
+container.addEventListener('contextmenu', e => e.preventDefault());
 
-function path(map, start, end) {
-    
+function sleep(t) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, t);
+    })
 }
+
+// 寻路逻辑
+async function findPath(map, start, end) {
+    let table = Object.create(map);
+    var queue = [start];
+    
+    // 将寻找的点插入队列
+    async function insert(x, y, pre) {
+        if (x < 0 || x > 100 || y < 0 || y > 100) {
+            return;
+        }
+        if (table[y * 100 + x]) {
+            return;
+        }
+        // await sleep(10);
+        container.children[y * 100 + x].style.backgroundColor = 'lightgreen';
+        table[y * 100 + x] = pre;
+        queue.push([x, y]);
+    }
+    while(queue.length) {
+        let [x, y] = queue.shift();
+        console.log(x, y);
+        if (x === end[0] && y === end[1]) {
+            let path = [];
+            while(x != start[0] || y != start[1]) {
+                path.push(map[y * 100 + x]);
+                [x, y] = table[y * 100 + x];
+                await sleep(10);
+                container.children[y * 100 + x].style.backgroundColor = 'purple';
+            }
+            return path;
+        }
+        await insert(x, y - 1, [x, y])  //上
+        await insert(x, y + 1, [x, y])  //下
+        await insert(x - 1, y, [x, y])  //左
+        await insert(x + 1, y, [x, y])  //右
+
+        await insert(x - 1, y - 1, [x, y])  //左上
+        await insert(x - 1, y + 1, [x, y])  //左下
+        await insert(x + 1, y - 1, [x, y])  //右上
+        await insert(x + 1, y + 1, [x, y])  //右下
+    }
+    return null;
+}
+
