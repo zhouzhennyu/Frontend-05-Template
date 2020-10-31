@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kmp</title>
+</head>
+<body>
+    <script>
+
+    function insert(word) {
+        let node = Object.create(null)
+        for (let item of word) {
+            if (!node[item]) {
+                console.log(item);
+                node[item] = Object.create(null)
+            }
+            console.log(' node[item]', node[item]);
+            node = node[item];
+            // console.log('node', node);
+        }
+    }
+    </script>
+</body>
+</html>
