@@ -18,13 +18,10 @@
         effect(() => {
             console.log(po.a);
         })
-        function effect(callback) {  
-            // callbacks.push(callback);
+        function effect(callback) {
             usedReactives = [];
             callback();
-            console.log(usedReactives);
             for(let item of usedReactives) {
-                console.log('item', item);
                 if (!callbacks.has(item[0])) {
                     callbacks.set(item[0], new Map());
                 }
