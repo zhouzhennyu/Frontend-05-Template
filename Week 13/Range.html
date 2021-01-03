@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+        <span>1</span>
+        <p>2</p>
+        <a href="">3</a>
+        <div>4</div>
+    </div>
+    <button onclick="reverse()">按钮</button>
+    <script>
+        let box = document.getElementById('box');
+
+        //第一种方式
+        /* function reverseChildren(element) {
+            let children = Array.prototype.slice.call(element.childNodes);
+            for(let child of children) {
+                element.removeChild(child)
+            }
+            children.reverse();
+
+            for (let child of children) {
+                element.appendChild(child)
+            }
+        } */
+
+
+        // 第二种方式
+        /* function reverseChildren(element){
+            let l = element.childNodes.length;
+            while(l-- > 0) {
+                element.appendChild(element.childNodes[l])
+            }
+        } */
+
+        // 第三种方式
+        function reverseChildren(element) {
+            let range = new Range();
+            range.selectNodeContents(element);
+            let fragment = range.extractContents();
+            let l = fragment.childNodes.length;
+            while(l-- > 0) {
+                fragment.appendChild(fragment.childNodes[l]);
+            }
+            element.appendChild(fragment);
+        }
+        
+        function reverse() {
+            reverseChildren(box);
+        }
+        
+    </script>
+</body>
+</html>

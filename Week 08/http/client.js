@@ -33,7 +33,7 @@ class Requset {
                 })
             }
             connection.on('data', (data) => {
-                console.log(data.toString());
+                console.log(11, data.toString());
                 parser.receive(data.toString());
                 if (parser.isFinished) {
                     resolve(parser.response);
@@ -48,7 +48,8 @@ class Requset {
     }
 
     toString() {
-        return `${this.method} ${this.path} HTTP/1.1\r ${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\r ${this.bodyText}`
+        return `${this.method} ${this.path} HTTP/1.1\r ${Object.keys(this.headers).map(key => `${key}: ${this.headers[key]}`).join('\r\n')}\r\r
+         ${this.bodyText}`
     }
 }
 
