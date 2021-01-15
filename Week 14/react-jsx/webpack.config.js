@@ -1,4 +1,6 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/main.js',
@@ -23,13 +25,14 @@ module.exports = {
                 
             }
         ]
+    },
+    plugins: [
+        new CleanWebpackPlugin(),
+        new HtmlWebpackPlugin({
+            template: './src/index.html'
+        })
+    ],
+    devServer: {
+        contentBase: './dist'
     }
-    // plugins: [
-    //     "@babel/plugin-transform-react-jsx",
-    //     {
-    //         "throwIfNamespace": false, // defaults to true
-    //         "runtime": "automatic", // defaults to classic
-    //         "importSource": "custom-jsx-library" // defaults to react
-    //     }
-    // ]
 }
