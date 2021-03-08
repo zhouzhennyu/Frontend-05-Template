@@ -1,58 +1,6 @@
-import { Component, createElement } from './framework.js'
-class Carousel extends Component {
-    constructor() {
-        super();
-        this.attributes = Object.create(null);
-    }
-    setAttribute(name, value) {
-        this.attributes[name] = value;
-    }
-    render() {
-        this.root = document.createElement('div');
-        this.root.classList.add('box');
-        for(let record of this.attributes.src) {
-            let child = document.createElement('div');
-            child.style.backgroundImage = `url('${record}')`;
-            this.root.appendChild(child);
-        }
-
-        this.root.addEventListener('mousedown', e => {
-            console.log('mousedown');
-            let move = e => {
-                console.log('mousemove');
-            }
-            let up = e => {
-                console.log('mouseup');
-                document.removeEventListener('mousemove', move);
-                document.removeEventListener('mouseup', up);
-            }
-            document.addEventListener('mousemove', move)
-            document.addEventListener('mouseup', up)
-        })
-
-        /*let currentIndex = 0;
-         setInterval(() => {
-            let children = this.root.children;
-            let nextIndex = (currentIndex + 1) % children.length;
-
-            let current = children[currentIndex];
-            let next = children[nextIndex];
-
-            next.style.transition = 'none';
-            next.style.transform = `translateX(${100 - nextIndex * 100}%)`
-            setTimeout(() => {
-                next.style.transition = "";
-                current.style.transform = `translateX(${-100 - currentIndex * 100}%)`;
-                next.style.transform = `translateX(${- nextIndex * 100}%)`;
-                currentIndex = nextIndex;
-            }, 16)
-        }, 3000) */
-        return this.root;
-    }
-    mountTo(parent) {
-        parent.appendChild(this.render());
-    }
-}
+import { Component, createElement } from './framework.js';
+import { Carousel } from './carousel.js';
+import { Timeline, Animation } from './ainmation.js';
 
 let d = [
     "https://static001.geekbang.org/resource/image/bb/21/bb38fb7c1073eaee1755f81131f11d21.jpg",
@@ -63,3 +11,11 @@ let d = [
 let a = <Carousel src={d} />
 // document.body.appendChild(a);
 a.mountTo(document.body)
+
+
+let tl = new Timeline();
+window.tl = tl;
+window.animation = new Animation({ set a(v) {console.log(v);}}, 'a', 0, 100, 1000, null);
+
+
+tl.start();
